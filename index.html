@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10090f">
+<title>письмо, которое ждало тебя</title>
+<link href="https://myfonts.ru/myfonts?fonts=brush-font-one" rel="stylesheet" type="text/css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@300;400;500;600&display=swap');
+:root{--bg:#10090f;--panel:#1b1019;--pink:#f08aa9;--rose:#c83e68;--red:#9e234b;--cream:#f8e9e8;--muted:#b99ca9}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(ellipse at 50% 0%,#321322 0%,#160d16 48%,#0c080d 100%);color:var(--cream);font-family:'Brush Font One', Manrope, sans-serif;min-height:100vh}
+button,input{font:inherit}
+.hidden{display:none!important}
+#gate{min-height:100vh;display:grid;place-items:center;padding:24px;position:relative;overflow:hidden}
+.glow{position:absolute;width:420px;height:420px;border-radius:50%;background:#c12e5a;filter:blur(130px);opacity:.16;pointer-events:none}
+.gate-card{position:relative;width:min(440px,100%);text-align:center;padding:44px 32px 38px;background:linear-gradient(145deg,rgba(48,25,39,.88),rgba(20,12,20,.94));border:1px solid rgba(240,138,169,.24);border-radius:28px;box-shadow:0 24px 90px #0009}
+.eyebrow{letter-spacing:.28em;text-transform:uppercase;color:var(--pink);font-size:10px}
+h1,h2,.serif{font-family:'Brush Font One', cursive;font-weight:500}
+.gate-card h1{font-size:clamp(38px,8vw,54px);line-height:1.02;margin:18px 0 10px}
+.gate-card p{color:var(--muted);font-size:13px;line-height:1.7}
+.lock{font-size:28px;color:var(--pink);margin:16px 0 8px}
+.code-wrap{display:flex;gap:9px;margin:25px 0 12px}
+#code{min-width:0;flex:1;text-align:center;letter-spacing:.32em;color:var(--cream);background:#100a11;border:1px solid #633047;border-radius:12px;padding:15px 12px;outline:none}
+#code:focus{border-color:var(--pink);box-shadow:0 0 0 3px #f08aa91c}
+.primary{border:0;border-radius:12px;padding:14px 20px;background:linear-gradient(135deg,#f08aa9,#bb315e);color:#230d18;font-weight:700;cursor:pointer;transition:.2s;box-shadow:0 8px 28px #bd315d35}
+.primary:hover{transform:translateY(-2px);filter:brightness(1.08)}
+#error{height:18px;color:#ff9ab2;font-size:12px}
+.gate-foot{font-size:11px!important;opacity:.65;margin-top:22px}
+#inside{animation:appear .9s ease both}
+@keyframes appear{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.topbar{max-width:1100px;margin:auto;padding:26px 26px 10px;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:11px;letter-spacing:.16em;text-transform:uppercase}
+.topbar b{color:var(--pink);font-weight:500}
+.hero{min-height:calc(100vh - 65px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px}
+.hero .eyebrow{margin-bottom:14px}
+.hero h2{font-size:clamp(38px,7vw,66px);line-height:.98;margin:0 0 12px}
+.hero-sub{color:var(--muted);font-size:13px;letter-spacing:.06em}
+.envelope-button{position:relative;width:min(330px,82vw);height:220px;margin:48px auto 25px;border:0;background:none;cursor:pointer;filter:drop-shadow(0 22px 25px #0008);transition:transform .35s}
+.envelope-button:hover{transform:translateY(-8px) rotate(-1deg)}
+.env-back{position:absolute;inset:16px 0 0;background:#6f1d3d;border-radius:10px}
+.env-paper{position:absolute;left:9%;right:9%;top:0;height:85%;background:linear-gradient(145deg,#f9e6e6,#d9aebc);border-radius:6px;transition:transform .65s cubic-bezier(.2,.8,.2,1);display:grid;place-items:center;color:#7d2345;font:500 24px 'Brush Font One', cursive}
+.env-front{position:absolute;inset:16px 0 0;background:linear-gradient(145deg,#b83b65,#7b1e42);clip-path:polygon(0 0,50% 58%,100% 0,100% 100%,0 100%);border-radius:0 0 10px 10px}
+.env-flap{position:absolute;inset:16px 0 auto;height:58%;background:linear-gradient(135deg,#d65c80,#9b2b51);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform .55s;z-index:3}
+.seal{position:absolute;z-index:4;left:50%;top:58%;transform:translate(-50%,-50%);width:47px;height:47px;border-radius:50%;display:grid;place-items:center;background:#f4c5d1;color:#8f2449;font-size:22px;box-shadow:0 3px 12px #50132c88}
+.envelope-button:hover .env-flap{transform:rotateX(20deg)}
+.hint{font-size:11px;color:#a98b99;letter-spacing:.13em;text-transform:uppercase}
+.letter-page{position:fixed;inset:0;z-index:10;background:rgba(8,5,9,.97);overflow-y:auto;padding:28px 18px 70px;animation:appear .6s ease}
+.letter-shell{max-width:850px;margin:0 auto;position:relative}
+.close{position:sticky;top:12px;margin-left:auto;display:block;border:1px solid #613047;color:var(--pink);background:#1b1019;border-radius:50%;width:42px;height:42px;cursor:pointer;z-index:2;font-size:20px}
+.paper{position:relative;margin:12px auto 0;padding:clamp(28px,6vw,68px);background:linear-gradient(135deg,#f7e9e7,#f0d9dd);color:#3b1828;box-shadow:0 25px 90px #0009;border-radius:3px;overflow:hidden}
+.paper:before{content:"";position:absolute;inset:13px;border:1px solid #c98b9d;pointer-events:none}
+.paper-inner{position:relative;max-width:680px;margin:auto}
+.paper .eyebrow{color:#a32b54}
+.paper h2{font-size:clamp(38px,7vw,62px);line-height:.98;margin:18px 0 28px;color:#76213e}
+.paper p{font-family:'Brush Font One', cursive;font-size:clamp(19px,2.8vw,23px);line-height:1.55;margin:0 0 18px}
+.paper .signature{font-size:31px;color:#a32b54;margin-top:30px}
+.divider{width:54px;height:1px;background:#bd7188;margin:28px 0}
+.gallery-title{text-align:center;margin:65px 0 24px}
+.gallery-title .eyebrow{margin-bottom:8px}
+.gallery-title h2{font-size:43px;margin:0;color:var(--pink)}
+.gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.photo-card{background:#1a1019;border:1px solid #482337;padding:9px;border-radius:14px;overflow:hidden}
+.photo{height:250px;background:linear-gradient(145deg,#321727,#160d16);border-radius:9px;display:grid;place-items:center;position:relative;overflow:hidden}
+.photo img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.photo-placeholder{text-align:center;color:#b68b9d;padding:15px;font-size:12px;line-height:1.7}
+.photo-placeholder span{display:block;font-size:28px;color:var(--pink);margin-bottom:7px}
+.photo-card input{width:100%;font-size:11px;color:#c9aab7;margin-top:9px}
+.caption{color:#d9b7c4;font-family:'Brush Font One', cursive;font-size:19px;padding:9px 4px 2px}
+.end-note{text-align:center;padding:55px 10px 10px;color:#c99bab}
+.end-note .heart{font-size:30px;color:var(--pink)}
+.end-note p{font:italic 23px 'Brush Font One', cursive}
+@media(max-width:600px){.gallery{grid-template-columns:1fr}.photo{height:280px}.topbar{font-size:9px}.paper{padding:30px 26px}.envelope-button{margin-top:38px}}
+</style>
+</head>
+<body>
+<section id="gate">
+  <div class="glow"></div>
+  <div class="gate-card">
+    <div class="eyebrow">для одного особенного человека</div>
+    <div class="lock">♡</div>
+    <h1>У меня есть<br>кое-что для тебя</h1>
+    <p>Долго старался и вот результат)<br>Чтобы открыть его, введи дату, с которой всё началось.</p>
+    <div class="code-wrap">
+      <input id="code" type="password" inputmode="numeric" maxlength="8" placeholder="••••••••" aria-label="Код доступа">
+      <button class="primary" id="enter">Клик</button>
+    </div>
+    <div id="error"></div>
+    <p class="gate-foot">подсказка: самый важный день для нас</p>
+  </div>
+</section>
+
+<main id="inside" class="hidden">
+  <div class="topbar"><span>ты сиска</span><b>05 · 08 · 2025</b></div>
+  <section class="hero">
+    <div class="eyebrow">письмо от самого сердца</div>
+    <h2>Для моей<br><span style="color:var(--pink)">маленькой девочки</span></h2>
+    <div class="hero-sub">Надеюсь ты будешь рада <3</div>
+    <button class="envelope-button" id="openLetter" aria-label="Открыть письмо">
+      <div class="env-back"></div>
+      <div class="env-paper">тебе, с любовью</div>
+      <div class="env-front"></div>
+      <div class="env-flap"></div>
+      <div class="seal">♥</div>
+    </button>
+    <div class="hint">нажми на конверт, чтобы прочитать</div>
+  </section>
+</main>
+
+<section class="letter-page hidden" id="letter">
+  <div class="letter-shell">
+    <button class="close" id="closeLetter" aria-label="Закрыть письмо">×</button>
+    <article class="paper">
+      <div class="paper-inner">
+        <div class="eyebrow">05 августа 2025 - наше начало</div>
+        <h2>Мое самое<br>любимое чудо</h2>
+        <p>иногда я думаю о том как сильно один человек может изменить обычные дни. С тобой даже самые обычные моменты становятся лучшими, а простые вещи теми, которые хочется запомнить на всю жизнь</p>
+        <p>я люблю в нас не только красивые моменты. Мне дороги наши разговоры, тупейшие шутки, смешные мелочи, взгляды и даже те дни, когда все плохо. Ведь это тоже наша история, живая и только наша.</p>
+        <p>спасибо тебе за то, что ты есть в моей жизни. За твою улыбку, за нежность, за характер, за все то, что делает тебя именно тобой. Я не обещаю, что каждый день будет как в фильмах но обещаю стараться, слышать тебя, беречь доверие и снова и снова выбирать тебя</p>
+        <p>если бы мне предложили заново прожить путь до того дня, я бы все равно хотел прийти именно к тебе. И я очень хочу чтобы впереди у нас было еще столько воспоминаний, что памяти в мозгах не хватит.</p>
+        <div class="divider"></div>
+        <p>Ты не просто часть моей истории. Ты один из самых дорогих ее смыслов.</p>
+        <div class="signature">Я тебя очень люблю. ♥</div>
+      </div>
+    </article>
+
+    <div class="gallery-title">
+      <div class="eyebrow">маленькая коллекция счастья</div>
+      <h2>Наши моменты</h2>
+    </div>
+    <div class="gallery">
+      <div class="photo-card"><div class="photo"><img src="photo1.jpg" alt="Это мы" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><div class="photo-placeholder" style="display:none"><span>♡</span>Положи сюда файл photo1.jpg</div></div><div class="caption">это мы))</div></div>
+      <div class="photo-card"><div class="photo"><img src="photo2.jpg" alt="А это ты, котенок" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><div class="photo-placeholder" style="display:none"><span>♥</span>Положи сюда файл photo2.jpg</div></div><div class="caption">а это ты, котенок</div></div>
+    </div>
+    <div class="end-note"><div class="heart">♥</div><p>и это только начало нашей истории.</p><div class="eyebrow">и ты все еще сиска · 05.08.2025</div></div>
+  </div>
+</section>
+
+<script>
+const gate = document.getElementById('gate');
+const inside = document.getElementById('inside');
+const code = document.getElementById('code');
+const error = document.getElementById('error');
+function unlock(){
+  if(code.value.trim() === '05082025'){
+    gate.classList.add('hidden');
+    inside.classList.remove('hidden');
+    error.textContent = '';
+  } else {
+    error.textContent = 'Кажется дата не совсем та. Попробуй еще раз ♡';
+    code.value = '';
+    code.focus();
+  }
+}
+document.getElementById('enter').addEventListener('click', unlock);
+code.addEventListener('keydown', e => { if(e.key === 'Enter') unlock(); });
+const letter = document.getElementById('letter');
+document.getElementById('openLetter').addEventListener('click', () => {
+  letter.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+});
+document.getElementById('closeLetter').addEventListener('click', () => {
+  letter.classList.add('hidden');
+  document.body.style.overflow = '';
+});
+
+</script>
+</body>
+</html>
